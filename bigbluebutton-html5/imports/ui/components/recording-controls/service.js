@@ -1,5 +1,6 @@
 import Auth from '/imports/ui/services/auth';
 import Meetings from '/imports/api/meetings';
+import Users from '/imports/api/users';
 import { makeCall } from '/imports/ui/services/api';
 
 const recording = () => {
@@ -20,9 +21,10 @@ const disable = () => {
 
 const record = () => {
   const m = Meetings.findOne({ meetingId: Auth.meetingID });
+  const u = Users.findOne({ userId: Auth.userID });
   const { record } = m.recordProp;
 
-  return record && Meteor.settings.public.app.showRecordingButton;
+  return record && u.moderator && Meteor.settings.public.app.showRecordingButton;
 }
 
 const toggleRecording = () => {
