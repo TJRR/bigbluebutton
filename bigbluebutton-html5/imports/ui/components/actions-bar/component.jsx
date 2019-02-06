@@ -46,7 +46,6 @@ class ActionsBar extends React.PureComponent {
         </div>
         <div className={isUserPresenter ? cx(styles.centerWithActions, actionBarClasses) : styles.center}>
           <AudioControlsContainer />
-          <RecordingControlsContainer />
           {Meteor.settings.public.kurento.enableVideo ?
             <JoinVideoOptionsContainer
               handleJoinVideo={handleJoinVideo}
@@ -60,6 +59,7 @@ class ActionsBar extends React.PureComponent {
               isUserPresenter,
             }}
           />
+          <RecordingControlsContainer />
         </div>
       </div>
     );
