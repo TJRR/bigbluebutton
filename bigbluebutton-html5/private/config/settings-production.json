@@ -2,6 +2,7 @@
   "public": {
 
     "app": {
+      "showRecordingButton": false,
       "mobileFont": 16,
       "desktopFont": 14,
       "audioChatNotification": false,
