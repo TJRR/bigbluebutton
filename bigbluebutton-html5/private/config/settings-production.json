@@ -18,6 +18,7 @@
       "lockOnJoin": true,
       "basename": "/html5client",
       "askForFeedbackOnLogout": false,
+      "showVoiceBridgeOnTitle": false,
       "defaultSettings": {
         "application": {
           "chatAudioAlerts": false,

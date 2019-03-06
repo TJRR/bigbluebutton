@@ -13,6 +13,7 @@ import NavBar from './component';
 const PUBLIC_CONFIG = Meteor.settings.public;
 const PUBLIC_CHAT_KEY = PUBLIC_CONFIG.chat.public_id;
 const CLIENT_TITLE = PUBLIC_CONFIG.app.clientTitle;
+const SHOW_VOICE_BRIDGE_ON_TITLE = PUBLIC_CONFIG.app.showVoiceBridgeOnTitle;
 
 const NavBarContainer = ({ children, ...props }) => (
   <NavBar {...props}>
@@ -30,7 +31,11 @@ export default withRouter(withTracker(({ location, router }) => {
   });
 
   if (meetingObject != null) {
-    meetingTitle = meetingObject.meetingProp.name;
+    if (SHOW_VOICE_BRIDGE_ON_TITLE) {
+      meetingTitle = `${meetingObject.meetingProp.name} [${meetingObject.voiceProp.voiceConf}]`;
+    } else {
+      meetingTitle = meetingObject.meetingProp.name;
+    }
     meetingRecorded = meetingObject.recordProp;
     document.title = `${CLIENT_TITLE} - ${meetingTitle}`;
   }
