@@ -12,6 +12,7 @@ import NavBar from './component';
 
 const PUBLIC_CONFIG = Meteor.settings.public;
 const ROLE_MODERATOR = PUBLIC_CONFIG.user.role_moderator;
+const MEETING_TITLE_SUFFIX = PUBLIC_CONFIG.app.meetingTitleSuffix;
 const NavBarContainer = ({ children, ...props }) => (
   <NavBar {...props}>
     {children}
@@ -27,8 +28,29 @@ export default withTracker(() => {
     meetingId,
   }, { fields: { 'meetingProp.name': 1 } });
 
+  const subValuesInTitle = (meeting, title) => {
+    let result = title;
+    const reg = /%%(DIALNUM|CONFNUM)%%/;
+    const match = reg.exec(title);
+
+    if (match) {
+      const vals = {
+        DIALNUM: meeting.voiceProp.dialNumber,
+        CONFNUM: meeting.voiceProp.voiceConf,
+      };
+      result = title.replace(reg, vals[match[1]]);
+    }
+
+    return result;
+  };
+
   if (meetingObject != null) {
-    meetingTitle = meetingObject.meetingProp.name;
+    if (MEETING_TITLE_SUFFIX) {
+      const suffix = subValuesInTitle(meetingObject, MEETING_TITLE_SUFFIX);
+      meetingTitle = `${meetingObject.meetingProp.name} [${suffix}]`;
+    } else {
+      meetingTitle = meetingObject.meetingProp.name;
+    }
     document.title = `${CLIENT_TITLE} - ${meetingTitle}`;
   }
 
